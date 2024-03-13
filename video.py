@@ -5,9 +5,9 @@ import subprocess
 from tempfile import NamedTemporaryFile
 import pymongo
 
-mongo_uri="mongodb+srv://hritik:qwertyuiop@lms.dpalkur.mongodb.net/"
+mongo_uri="mongodb+srv://yghugardare6:yghugardare2117@lms.z8u7boa.mongodb.net/"
 client = pymongo.MongoClient(mongo_uri)
-db = client["Elearning"]
+db = client["Lms"]
 
 
 st.title("Video_To_Transcribe")
@@ -15,7 +15,7 @@ collection = db["ai"]
 
 # Additional fields for title and author
 title = st.text_input("Title")
-author = st.text_input("Course")
+Course = st.text_input("Course")
 
 
 # File uploader
@@ -54,8 +54,8 @@ if st.sidebar.button("Transcribe"):
 
         # Transcribe the audio
         transcription = model.transcribe(audio_file_path)
-        print(title,author)
-        data = {"title": title, "Course": author, "transcription": transcription["text"]}
+        print(title,Course)
+        data = {"title": title, "Course": Course, "transcription": transcription["text"]}
         collection.insert_one(data)
         st.sidebar.success("Transcribing complete")
         st.markdown(transcription["text"])
