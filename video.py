@@ -1,21 +1,16 @@
 import os
 import streamlit as st
-import whisper
+import assemblyai as aai
 import subprocess
 from tempfile import NamedTemporaryFile
 
-
 st.title("Video_To_Transcribe")
-
-# Additional fields for title and author
-
-
 
 # File uploader
 video_file = st.file_uploader("Upload Video", type=["mp4", "mkv", "avi"])
 
-model = whisper.load_model("base")
-st.text("Whisper Model Loaded")
+aai.settings.api_key = "your api key"
+st.text("Model Loaded")
 
 # Audio file path
 audio_file_path = "audio_file_path.wav"
@@ -46,9 +41,13 @@ if st.sidebar.button("Transcribe"):
         audio_file_path = convert_video_to_mp3(video_file, audio_file_path)
 
         # Transcribe the audio
-        transcription = model.transcribe(audio_file_path)
+        transcriber = aai.Transcriber()
+        transcription = transcriber.transcribe(audio_file_path)
+
+        # Access the transcribed text using .text attribute
+        transcribed_text = transcription.text
         st.sidebar.success("Transcribing complete")
-        st.markdown(transcription["text"])
+        st.markdown(transcribed_text)
     else:
         st.sidebar.error("Please upload a video file")
 
