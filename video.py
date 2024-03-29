@@ -3,19 +3,12 @@ import streamlit as st
 import whisper
 import subprocess
 from tempfile import NamedTemporaryFile
-import pymongo
-
-mongo_uri="mongodb+srv://yghugardare6:yghugardare2117@lms.z8u7boa.mongodb.net/"
-client = pymongo.MongoClient(mongo_uri)
-db = client["Lms"]
 
 
 st.title("Video_To_Transcribe")
-collection = db["ai"]
 
 # Additional fields for title and author
-title = st.text_input("Title")
-Course = st.text_input("Course")
+
 
 
 # File uploader
@@ -54,9 +47,6 @@ if st.sidebar.button("Transcribe"):
 
         # Transcribe the audio
         transcription = model.transcribe(audio_file_path)
-        print(title,Course)
-        data = {"title": title, "Course": Course, "transcription": transcription["text"]}
-        collection.insert_one(data)
         st.sidebar.success("Transcribing complete")
         st.markdown(transcription["text"])
     else:
@@ -70,5 +60,3 @@ if os.path.exists(audio_file_path):
 
 st.sidebar.header("Play Original Video File")
 st.sidebar.video(video_file)
-
-
