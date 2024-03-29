@@ -1,4 +1,3 @@
-
 #############################################################   STAGE 1   ############################################################################
 FROM python:3.9 as backend-builder
 
@@ -6,12 +5,12 @@ WORKDIR /app
 
 COPY . .
 
-RUN  pip install streamlit  &&  pip install pymongo  &&  pip install ffmpeg  &&  pip install git+https://github.com/openai/whisper.git 
+RUN  pip install streamlit  &&  pip install pymongo  &&  pip install ffmpeg  &&  pip install git+https://github.com/openai/whisper.git
 
 
 #############################################################   STAGE 2   ############################################################################
 
-FROM python:3.9-slim 
+FROM python:3.9-slim
 
 WORKDIR /app
 
