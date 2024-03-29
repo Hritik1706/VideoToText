@@ -1,23 +1,13 @@
-#############################################################   STAGE 1   ############################################################################
-FROM python:3.9 as backend-builder
+FROM python
 
 WORKDIR /app
 
 COPY . .
 
-RUN  pip install streamlit  &&  pip install pymongo  &&  pip install ffmpeg  &&  pip install git+https://github.com/openai/whisper.git
+RUN apt-get update && apt-get install -y ffmpeg
 
-
-#############################################################   STAGE 2   ############################################################################
-
-FROM python:3.9-slim
-
-WORKDIR /app
-
-COPY --from=backend-builder /usr/local/lib/python3.9/site-packages/ /usr/local/lib/python3.9/site-packages/
-
-COPY --from=backend-builder /app /app
+RUN pip install pymongo && pip install streamlit && pip install assemblyai
 
 EXPOSE 8501
 
-CMD ["/usr/local/bin/streamlit", "run", "video.py"]
+CMD ["streamlit","run","video.py"]
